@@ -1,0 +1,12 @@
+name: Public repair verification
+on:
+  push:
+    branches: [maintenance/public-audit-20260930]
+    paths: [.github/workflows/public-repair-verification.yml]
+permissions:
+  contents: write
+jobs:
+  repair:
+    uses: hyouo/longeclaw/.github/workflows/verify-public-repair.yml@ecf6dd76a6f55be29778a624a56a7e11b866dbe1
+    with:
+      base_sha: '8f7b6b43c3f6402a8908d8d9bbf3134b2a43fb2c'
