@@ -28,6 +28,8 @@ jobs:
           node-version: '22'
       - name: Install locked lint dependencies without lifecycle scripts
         run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Install locked test lint dependencies without lifecycle scripts
+        run: npm ci --prefix tests --ignore-scripts --no-audit --no-fund
       - name: Verify workflow trust separation
         run: node --test .github/tests/workflow-trust.test.mjs
       - name: Lint project code
