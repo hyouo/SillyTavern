@@ -1,0 +1,34 @@
+name: PR code checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [release, staging]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lint-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  eslint:
+    name: Check ESLint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4.3.0
+        with:
+          node-version: '22'
+      - name: Install locked lint dependencies without lifecycle scripts
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Verify workflow trust separation
+        run: node --test .github/tests/workflow-trust.test.mjs
+      - name: Lint project code
+        run: npx --no-install eslint . --ext .js --ignore-path .gitignore --quiet
