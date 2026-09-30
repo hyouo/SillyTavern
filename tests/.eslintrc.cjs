@@ -9,10 +9,15 @@ module.exports = {
     env: {
         es6: true,
         node: true,
-        "jest/globals": true,
+        'jest/globals': true,
+    },
+    globals: {
+        // The configured jest-puppeteer preset supplies this browser page.
+        page: 'readonly',
     },
     parserOptions: {
         ecmaVersion: 'latest',
+        sourceType: 'module',
     },
     overrides: [
     ],
